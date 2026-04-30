@@ -63,7 +63,7 @@ class _UsersPageState extends State<UsersPage> {
         submitLabel: 'Create',
         onSubmit: (name, email) async {
           await _viewModel.createUser(name: name, email: email);
-        }
+        },
       ),
     );
   }
@@ -78,7 +78,7 @@ class _UsersPageState extends State<UsersPage> {
         submitLabel: 'Save',
         onSubmit: (name, email) async {
           await _viewModel.updateUser(id: user.id, name: name, email: email);
-        }
+        },
       ),
     );
   }
@@ -154,7 +154,7 @@ class _UsersPageState extends State<UsersPage> {
         child: ListView(
           children: const [
             SizedBox(height: 160),
-            Center(child: Text('No users found'))
+            Center(child: Text('No users found')),
           ],
         ),
       );
@@ -184,9 +184,9 @@ class _UsersPageState extends State<UsersPage> {
                     IconButton(
                       onPressed: () => _confirmDelete(user),
                       icon: const Icon(Icons.delete_outlined),
-                    )
+                    ),
                   ],
-                )
+                ),
               );
             },
           ),
@@ -202,4 +202,3 @@ class _UsersPageState extends State<UsersPage> {
     );
   }
 }
-

@@ -66,7 +66,11 @@ class UsersViewModel extends ChangeNotifier {
     return reloadResult.isSuccess;
   }
 
-  Future<bool> updateUser({required int id, required String name, required String email}) async {
+  Future<bool> updateUser({
+    required int id,
+    required String name,
+    required String email,
+  }) async {
     _setLoading(true);
     _errorMessage = null;
 
@@ -116,7 +120,7 @@ class UsersViewModel extends ChangeNotifier {
     if (_isLoading == value) {
       return;
     }
-    
+
     _isLoading = value;
     notifyListeners();
   }
