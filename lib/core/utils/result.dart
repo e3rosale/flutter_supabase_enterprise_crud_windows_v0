@@ -7,6 +7,6 @@ class Result<T> {
   bool get isSuccess => error == null;
   bool get isFailure => error != null;
 
-  factory Result.success(T? data) => Result._(data: data);
+  factory Result.success(T data) => Result._(data: data);
   factory Result.failure(String error) => Result._(error: error);
 }
