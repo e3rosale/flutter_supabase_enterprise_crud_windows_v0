@@ -53,10 +53,10 @@ class UsersViewModel extends ChangeNotifier {
       return UserOperationResult.mutationFailed(result.error);
     }
 
-    await _reloadUsers();
+    final reloadResult = await _reloadUsers();
 
     _setLoading(false);
-    return UserOperationResult.success();
+    return reloadResult;
   }
 
   Future<UserOperationResult> updateUser({
@@ -75,10 +75,10 @@ class UsersViewModel extends ChangeNotifier {
       return UserOperationResult.mutationFailed(result.error);
     }
 
-    await _reloadUsers();
+    final reloadResult = await _reloadUsers();
 
     _setLoading(false);
-    return UserOperationResult.success();
+    return reloadResult;
   }
 
   Future<UserOperationResult> deleteUser(int id) async {
@@ -93,10 +93,10 @@ class UsersViewModel extends ChangeNotifier {
       return UserOperationResult.mutationFailed(result.error);
     }
 
-    await _reloadUsers();
+    final reloadResult = await _reloadUsers();
 
     _setLoading(false);
-    return UserOperationResult.success();
+    return reloadResult;
   }
 
   Future<UserOperationResult> _reloadUsers() async {
