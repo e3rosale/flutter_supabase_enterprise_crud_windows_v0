@@ -102,13 +102,12 @@ class UsersViewModel extends ChangeNotifier {
   Future<UserOperationResult> _reloadUsers() async {
     final Result<List<UserEntity>> result = await getUsersUseCase();
 
-    if (result.isSuccess) {
-      _users = result.data!;
-    } else {
+    if (result.isFailure) {
       _errorMessage = result.error;
       return UserOperationResult.reloadFailed(result.error);
     }
 
+    _users = result.data!;
     return UserOperationResult.success();
   }
 
