@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'users_state.dart';
 
 import '../../../../core/utils/result.dart';
 import 'user_operation_result.dart';
@@ -21,41 +22,36 @@ class UsersViewModel extends ChangeNotifier {
     required this.deleteUserUseCase,
   });
 
-  List<UserEntity> _users = [];
-  bool _isLoading = false;
-  String? _errorMessage;
+  UsersState _state = const UsersState();
 
-  List<UserEntity> get users => _users;
-  bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
+  UsersState get state => _state;
 
   Future<void> loadUsers() async {
-    _setLoading(true);
-    _errorMessage = null;
+    _setState(_state.copyWith(isLoading: true, clearError: true));
 
     await _reloadUsers();
 
-    _setLoading(false);
+    _setState(_state.copyWith(isLoading: false));
   }
 
   Future<UserOperationResult> createUser({
     required String name,
     required String email,
   }) async {
-    _setLoading(true);
-    _errorMessage = null;
+    _setState(_state.copyWith(isLoading: true, clearError: true));
 
     final result = await createUserUseCase(name: name, email: email);
 
     if (result.isFailure) {
-      _errorMessage = result.error;
-      _setLoading(false);
+      _setState(_state.copyWith(isLoading: false, errorMessage: result.error));
+
       return UserOperationResult.mutationFailed(result.error);
     }
 
     final reloadResult = await _reloadUsers();
 
-    _setLoading(false);
+    _setState(_state.copyWith(isLoading: false));
+
     return reloadResult;
   }
 
@@ -64,38 +60,38 @@ class UsersViewModel extends ChangeNotifier {
     required String name,
     required String email,
   }) async {
-    _setLoading(true);
-    _errorMessage = null;
+    _setState(_state.copyWith(isLoading: true, clearError: true));
 
     final result = await updateUserUseCase(id: id, name: name, email: email);
 
     if (result.isFailure) {
-      _errorMessage = result.error;
-      _setLoading(false);
+      _setState(_state.copyWith(isLoading: false, errorMessage: result.error));
+
       return UserOperationResult.mutationFailed(result.error);
     }
 
     final reloadResult = await _reloadUsers();
 
-    _setLoading(false);
+    _setState(_state.copyWith(isLoading: false));
+
     return reloadResult;
   }
 
   Future<UserOperationResult> deleteUser(int id) async {
-    _setLoading(true);
-    _errorMessage = null;
+    _setState(_state.copyWith(isLoading: true, clearError: true));
 
     final result = await deleteUserUseCase(id);
 
     if (result.isFailure) {
-      _errorMessage = result.error;
-      _setLoading(false);
+      _setState(_state.copyWith(isLoading: false, errorMessage: result.error));
+
       return UserOperationResult.mutationFailed(result.error);
     }
 
     final reloadResult = await _reloadUsers();
 
-    _setLoading(false);
+    _setState(_state.copyWith(isLoading: false));
+
     return reloadResult;
   }
 
@@ -103,18 +99,20 @@ class UsersViewModel extends ChangeNotifier {
     final Result<List<UserEntity>> result = await getUsersUseCase();
 
     if (result.isFailure) {
-      _errorMessage = result.error;
+      _setState(_state.copyWith(errorMessage: result.error));
+
       return UserOperationResult.reloadFailed(result.error);
     }
 
-    _users = result.data!;
+    _setState(_state.copyWith(users: result.data!, clearError: true));
+
     return UserOperationResult.success();
   }
 
-  void _setLoading(bool value) {
-    if (_isLoading == value) return;
+  void _setState(UsersState newState) {
+    if (_state == newState) return;
 
-    _isLoading = value;
+    _state = newState;
     notifyListeners();
   }
 }
