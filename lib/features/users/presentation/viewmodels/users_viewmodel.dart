@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/utils/result.dart';
+import 'user_operation_result.dart';
 // import '../../domain/entities/user_entity.dart';
 // import '../../domain/usecases/create_user.dart';
 // import '../../domain/usecases/delete_user.dart';
@@ -37,7 +38,10 @@ class UsersViewModel extends ChangeNotifier {
     _setLoading(false);
   }
 
-  Future<bool> createUser({required String name, required String email}) async {
+  Future<UserOperationResult> createUser({
+    required String name,
+    required String email,
+  }) async {
     _setLoading(true);
     _errorMessage = null;
 
@@ -46,16 +50,16 @@ class UsersViewModel extends ChangeNotifier {
     if (result.isFailure) {
       _errorMessage = result.error;
       _setLoading(false);
-      return false;
+      return UserOperationResult.mutationFailed(result.error);
     }
 
-    final success = await _reloadUsers();
+    await _reloadUsers();
 
     _setLoading(false);
-    return success;
+    return UserOperationResult.success();
   }
 
-  Future<bool> updateUser({
+  Future<UserOperationResult> updateUser({
     required int id,
     required String name,
     required String email,
@@ -68,16 +72,16 @@ class UsersViewModel extends ChangeNotifier {
     if (result.isFailure) {
       _errorMessage = result.error;
       _setLoading(false);
-      return false;
+      return UserOperationResult.mutationFailed(result.error);
     }
 
-    final success = await _reloadUsers();
+    await _reloadUsers();
 
     _setLoading(false);
-    return success;
+    return UserOperationResult.success();
   }
 
-  Future<bool> deleteUser(int id) async {
+  Future<UserOperationResult> deleteUser(int id) async {
     _setLoading(true);
     _errorMessage = null;
 
@@ -86,25 +90,26 @@ class UsersViewModel extends ChangeNotifier {
     if (result.isFailure) {
       _errorMessage = result.error;
       _setLoading(false);
-      return false;
+      return UserOperationResult.mutationFailed(result.error);
     }
 
-    final success = await _reloadUsers();
+    await _reloadUsers();
 
     _setLoading(false);
-    return success;
+    return UserOperationResult.success();
   }
 
-  Future<bool> _reloadUsers() async {
+  Future<UserOperationResult> _reloadUsers() async {
     final Result<List<UserEntity>> result = await getUsersUseCase();
 
     if (result.isSuccess) {
       _users = result.data!;
     } else {
       _errorMessage = result.error;
+      return UserOperationResult.reloadFailed(result.error);
     }
 
-    return result.isSuccess;
+    return UserOperationResult.success();
   }
 
   void _setLoading(bool value) {
