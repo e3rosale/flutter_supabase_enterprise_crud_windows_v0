@@ -32,13 +32,7 @@ class UsersViewModel extends ChangeNotifier {
     _setLoading(true);
     _errorMessage = null;
 
-    final Result<List<UserEntity>> result = await getUsersUseCase();
-
-    if (result.isSuccess) {
-      _users = result.data ?? [];
-    } else {
-      _errorMessage = result.error;
-    }
+    await _reloadUsers();
 
     _setLoading(false);
   }
@@ -55,15 +49,10 @@ class UsersViewModel extends ChangeNotifier {
       return false;
     }
 
-    final reloadResult = await getUsersUseCase();
-    if (reloadResult.isSuccess) {
-      _users = reloadResult.data ?? [];
-    } else {
-      _errorMessage = reloadResult.error;
-    }
+    final success = await _reloadUsers();
 
     _setLoading(false);
-    return reloadResult.isSuccess;
+    return success;
   }
 
   Future<bool> updateUser({
@@ -82,15 +71,10 @@ class UsersViewModel extends ChangeNotifier {
       return false;
     }
 
-    final reloadResult = await getUsersUseCase();
-    if (reloadResult.isSuccess) {
-      _users = reloadResult.data ?? [];
-    } else {
-      _errorMessage = reloadResult.error;
-    }
+    final success = await _reloadUsers();
 
     _setLoading(false);
-    return reloadResult.isSuccess;
+    return success;
   }
 
   Future<bool> deleteUser(int id) async {
@@ -105,21 +89,26 @@ class UsersViewModel extends ChangeNotifier {
       return false;
     }
 
-    final reloadResult = await getUsersUseCase();
-    if (reloadResult.isSuccess) {
-      _users = reloadResult.data ?? [];
-    } else {
-      _errorMessage = reloadResult.error;
-    }
+    final success = await _reloadUsers();
 
     _setLoading(false);
-    return reloadResult.isSuccess;
+    return success;
+  }
+
+  Future<bool> _reloadUsers() async {
+    final Result<List<UserEntity>> result = await getUsersUseCase();
+
+    if (result.isSuccess) {
+      _users = result.data!;
+    } else {
+      _errorMessage = result.error;
+    }
+
+    return result.isSuccess;
   }
 
   void _setLoading(bool value) {
-    if (_isLoading == value) {
-      return;
-    }
+    if (_isLoading == value) return;
 
     _isLoading = value;
     notifyListeners();
