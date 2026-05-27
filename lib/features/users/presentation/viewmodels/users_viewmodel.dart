@@ -3,7 +3,7 @@ import 'users_state.dart';
 
 import '../../../../core/utils/result.dart';
 import 'user_operation_result.dart';
-// import '../../domain/entities/user_entity.dart';
+import '../../domain/entities/user_entity.dart';
 // import '../../domain/usecases/create_user.dart';
 // import '../../domain/usecases/delete_user.dart';
 // import '../../domain/usecases/get_users.dart';
