@@ -7,9 +7,6 @@ import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domai
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/viewmodels/user_operation_result.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/viewmodels/users_state.dart';
 
-// import '../../domain/usecases/delete_user.dart';
-// import '../../domain/usecases/update_user.dart';
-
 class UsersViewModel extends ChangeNotifier {
   final GetUsers getUsersUseCase;
   final CreateUser createUserUseCase;
