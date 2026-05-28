@@ -3,6 +3,7 @@ import 'package:flutter_supabase_enterprise_crud_windows_v0/core/utils/result.da
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/entities/user_entity.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/create_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/get_users.dart';
+import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/update_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/viewmodels/user_operation_result.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/viewmodels/users_state.dart';
 
