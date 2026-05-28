@@ -1,3 +1,4 @@
+import 'package:flutter_supabase_enterprise_crud_windows_v0/core/error/app_exception.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
