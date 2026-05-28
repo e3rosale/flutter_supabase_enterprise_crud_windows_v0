@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/create_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/get_users.dart';
 
 import '../../../../core/utils/result.dart';
