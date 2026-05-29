@@ -4,7 +4,7 @@ import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domai
 abstract class UserRepository {
   Future<Result<List<UserEntity>>> getUsers();
 
-  Future<Result<void>> createUsers({
+  Future<Result<void>> createUser({
     required String name,
     required String email,
   });
