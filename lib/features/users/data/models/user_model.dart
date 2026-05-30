@@ -1,11 +1,11 @@
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/entities/user_entity.dart';
 
-class UserModel extends UserEntity {
-  const UserModel({
-    required super.id,
-    required super.name,
-    required super.email,
-  });
+class UserModel {
+  final int id;
+  final String name;
+  final String email;
+
+  const UserModel({required this.id, required this.name, required this.email});
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
