@@ -15,6 +15,10 @@ class UserModel extends UserEntity {
     );
   }
 
+  UserEntity toEntity() {
+    return UserEntity(id: id, name: name, email: email);
+  }
+
   Map<String, dynamic> toInsertMap() {
     return {'name': name, 'email': email};
   }
