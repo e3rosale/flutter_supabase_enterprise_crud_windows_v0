@@ -12,7 +12,9 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<List<UserEntity>>> getUsers() async {
     try {
-      final users = await remoteDataSource.getUsers();
+      final userModels = await remoteDataSource.getUsers();
+      final users = userModels.map((model) => model.toEntity()).toList();
+
       return Result.success(users);
     } on AppException catch (e) {
       return Result.failure(e.message);
