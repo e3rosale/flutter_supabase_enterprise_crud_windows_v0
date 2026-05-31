@@ -9,13 +9,10 @@ class UserRepositoryImpl implements UserRepository {
 
   UserRepositoryImpl(this.remoteDataSource);
 
-  @override
-  Future<Result<List<UserEntity>>> getUsers() async {
+  Future<Result<T>> _run<T>(Future<T> Function() action) async {
     try {
-      final userModels = await remoteDataSource.getUsers();
-      final users = userModels.map((model) => model.toEntity()).toList();
-
-      return Result.success(users);
+      final result = await action();
+      return Result.success(result);
     } on AppException catch (e) {
       return Result.failure(e.message);
     } catch (e) {
@@ -24,18 +21,22 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Result<List<UserEntity>>> getUsers() async {
+    return _run(() async {
+      final userModels = await remoteDataSource.getUsers();
+
+      return userModels.map((model) => model.toEntity()).toList();
+    });
+  }
+
+  @override
   Future<Result<void>> createUser({
     required String name,
     required String email,
   }) async {
-    try {
-      await remoteDataSource.createUser(name: name, email: email);
-      return Result.success(null);
-    } on AppException catch (e) {
-      return Result.failure(e.message);
-    } catch (e) {
-      return Result.failure('Unexpected error: $e');
-    }
+    return _run(() async {
+      return remoteDataSource.createUser(name: name, email: email);
+    });
   }
 
   @override
@@ -44,25 +45,15 @@ class UserRepositoryImpl implements UserRepository {
     required String name,
     required String email,
   }) async {
-    try {
-      await remoteDataSource.updateUser(id: id, name: name, email: email);
-      return Result.success(null);
-    } on AppException catch (e) {
-      return Result.failure(e.message);
-    } catch (e) {
-      return Result.failure('Unexpected error: $e');
-    }
+    return _run(() async {
+      return remoteDataSource.updateUser(id: id, name: name, email: email);
+    });
   }
 
   @override
   Future<Result<void>> deleteUser(int id) async {
-    try {
-      await remoteDataSource.deleteUser(id);
-      return Result.success(null);
-    } on AppException catch (e) {
-      return Result.failure(e.message);
-    } catch (e) {
-      return Result.failure('Unexpected error: $e');
-    }
+    return _run(() async {
+      return remoteDataSource.deleteUser(id);
+    });
   }
 }
