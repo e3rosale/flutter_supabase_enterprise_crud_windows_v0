@@ -126,9 +126,9 @@ class _UsersPageState extends State<UsersPage> {
       ),
       body: Column(
         children: [
-          if (_viewModel.errorMessage != null)
+          if (_viewModel.state.errorMessage != null)
             MaterialBanner(
-              content: Text(_viewModel.errorMessage!),
+              content: Text(_viewModel.state.errorMessage!),
               actions: [
                 TextButton(
                   onPressed: _viewModel.loadUsers,
@@ -143,11 +143,11 @@ class _UsersPageState extends State<UsersPage> {
   }
 
   Widget _buildBody() {
-    if (_viewModel.isLoading && _viewModel.users.isEmpty) {
+    if (_viewModel.state.isLoading && _viewModel.state.users.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (_viewModel.users.isEmpty) {
+    if (_viewModel.state.users.isEmpty) {
       return RefreshIndicator(
         onRefresh: _viewModel.loadUsers,
         child: ListView(
@@ -164,10 +164,10 @@ class _UsersPageState extends State<UsersPage> {
         RefreshIndicator(
           onRefresh: _viewModel.loadUsers,
           child: ListView.separated(
-            itemCount: _viewModel.users.length,
+            itemCount: _viewModel.state.users.length,
             separatorBuilder: (_, _) => const Divider(height: 1),
             itemBuilder: (context, index) {
-              final user = _viewModel.users[index];
+              final user = _viewModel.state.users[index];
 
               return ListTile(
                 leading: CircleAvatar(child: Text(user.id.toString())),
@@ -190,7 +190,7 @@ class _UsersPageState extends State<UsersPage> {
             },
           ),
         ),
-        if (_viewModel.isLoading)
+        if (_viewModel.state.isLoading)
           const Positioned(
             left: 0,
             right: 0,
