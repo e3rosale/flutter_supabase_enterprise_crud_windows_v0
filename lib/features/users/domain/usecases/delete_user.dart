@@ -7,6 +7,10 @@ class DeleteUser {
   DeleteUser(this.repository);
 
   Future<Result<void>> call(int id) {
+    if (id <= 0) {
+      return Future.value(Result.failure('User id must be valid.'));
+    }
+
     return repository.deleteUser(id);
   }
 }

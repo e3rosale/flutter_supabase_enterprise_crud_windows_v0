@@ -1,4 +1,5 @@
 import 'package:flutter_supabase_enterprise_crud_windows_v0/core/error/app_exception.dart';
+import 'package:flutter_supabase_enterprise_crud_windows_v0/core/error/failure.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/core/utils/result.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/data/datasources/user_remote_datasource.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/entities/user_entity.dart';
@@ -14,9 +15,17 @@ class UserRepositoryImpl implements UserRepository {
       final result = await action();
       return Result.success(result);
     } on AppException catch (e) {
-      return Result.failure(e.message);
+      return Result.failureOf(
+        Failure(type: FailureType.data, message: e.message, cause: e),
+      );
     } catch (e) {
-      return Result.failure('Unexpected error: $e');
+      return Result.failureOf(
+        Failure(
+          type: FailureType.unknown,
+          message: 'Unexpected error. Please try again.',
+          cause: e,
+        ),
+      );
     }
   }
 
