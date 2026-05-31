@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/data/datasources/user_remote_datasource.dart';
+import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/data/repositories/user_repository_impl.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/entities/user_entity.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/create_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/delete_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/get_users.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/update_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/viewmodels/users_viewmodel.dart';
+import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/widgets/user_form_dialog.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-// import '../../data/datasources/user_remote_datasource.dart';
-// import '../../data/repositories/user_repository_impl.dart';
-// import '../../domain/entities/user_entity.dart';
-// import '../../domain/usecases/create_user.dart';
-// import '../../domain/usecases/delete_user.dart';
-// import '../../domain/usecases/get_users.dart';
-// import '../../domain/usecases/update_user.dart';
-// import '../viewmodels/users_viewmodel.dart';
-// import '../widgets/user_form_dialog.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
