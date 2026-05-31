@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/data/datasources/user_remote_datasource.dart';
-import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/data/repositories/user_repository_impl.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/entities/user_entity.dart';
-import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/create_user.dart';
-import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/delete_user.dart';
-import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/get_users.dart';
-import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/update_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/viewmodels/users_viewmodel.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/presentation/widgets/user_form_dialog.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
+typedef UsersViewModelFactory = UsersViewModel Function();
 
 class UsersPage extends StatefulWidget {
-  const UsersPage({super.key});
+  final UsersViewModelFactory createViewModel;
+
+  const UsersPage({super.key, required this.createViewModel});
 
   @override
   State<UsersPage> createState() => _UsersPageState();
@@ -24,17 +21,7 @@ class _UsersPageState extends State<UsersPage> {
   void initState() {
     super.initState();
 
-    final client = Supabase.instance.client;
-    final dataSource = UserRemoteDataSource(client);
-    final repository = UserRepositoryImpl(dataSource);
-
-    _viewModel = UsersViewModel(
-      getUsersUseCase: GetUsers(repository),
-      createUserUseCase: CreateUser(repository),
-      updateUserUseCase: UpdateUser(repository),
-      deleteUserUseCase: DeleteUser(repository),
-    );
-
+    _viewModel = widget.createViewModel();
     _viewModel.addListener(_onViewModelChanged);
     _viewModel.loadUsers();
   }

@@ -1,17 +1,50 @@
-# flutter_supabase_enterprise_crud_windows_v0
+# Flutter Supabase Enterprise CRUD
 
-A new Flutter project.
+Enterprise-style Flutter CRUD app backed by Supabase.
 
-## Getting Started
+## Architecture
 
-This project is a starting point for a Flutter application.
+The app uses a feature-first structure with Clean Architecture-inspired
+boundaries:
 
-A few resources to get you started if this is your first Flutter project:
+- `lib/app`: bootstrap, dependency construction, and app shell.
+- `lib/core`: configuration, errors, logging, validation, and utilities.
+- `lib/features/users/domain`: entities, use cases, and repository contracts.
+- `lib/features/users/data`: Supabase datasource and repository implementation.
+- `lib/features/users/presentation`: pages, widgets, state, and view models.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+See `docs/architecture.md` for the project conventions.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Prerequisites
+
+- Flutter SDK
+- A Supabase project
+- A `users` table matching `docs/database.md`
+
+## Configuration
+
+Pass runtime configuration with Dart defines:
+
+```powershell
+flutter run `
+  --dart-define=APP_ENV=development `
+  --dart-define=SUPABASE_URL=https://your-project.supabase.co `
+  --dart-define=SUPABASE_ANON_KEY=your-anon-key
+```
+
+Required keys are also listed in `.env.example`, but `.env` is not bundled into
+the app.
+
+## Development
+
+```powershell
+flutter pub get
+dart format .
+flutter analyze
+flutter test
+```
+
+## Database
+
+Apply the baseline migration in `supabase/migrations` or create the table
+manually using `docs/database.md`.

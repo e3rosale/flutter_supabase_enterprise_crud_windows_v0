@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/core/utils/result.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/entities/user_entity.dart';
+import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/repositories/user_repository.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/create_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/delete_user.dart';
 import 'package:flutter_supabase_enterprise_crud_windows_v0/features/users/domain/usecases/get_users.dart';
@@ -20,6 +21,15 @@ class UsersViewModel extends ChangeNotifier {
     required this.updateUserUseCase,
     required this.deleteUserUseCase,
   });
+
+  factory UsersViewModel.fromRepository(UserRepository repository) {
+    return UsersViewModel(
+      getUsersUseCase: GetUsers(repository),
+      createUserUseCase: CreateUser(repository),
+      updateUserUseCase: UpdateUser(repository),
+      deleteUserUseCase: DeleteUser(repository),
+    );
+  }
 
   UsersState _state = const UsersState();
 

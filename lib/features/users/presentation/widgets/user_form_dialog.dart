@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_supabase_enterprise_crud_windows_v0/core/validation/email_validator.dart';
 
 class UserFormDialog extends StatefulWidget {
   final String title;
@@ -96,7 +97,7 @@ class _UserFormDialogState extends State<UserFormDialog> {
                   if (email.isEmpty) {
                     return 'Email is required';
                   }
-                  if (!email.contains('@')) {
+                  if (!EmailValidator.isValid(email)) {
                     return 'Enter a valid email';
                   }
                   return null;
